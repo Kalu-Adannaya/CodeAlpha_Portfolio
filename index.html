@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalu Adannaya | Front-End Developer</title>
+<meta name="description" content="Portfolio of Kalu Adannaya, a front-end developer building responsive web pages with HTML, CSS and Bootstrap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<script>
+// photo fallback: local file, then Google Drive, then initials
+var fb=['https://drive.google.com/thumbnail?id=1cBJx4VXJAKQl1wH-33py8Sii7y07kwkh&sz=w800'];
+function photoFail(img){
+  if(fb.length){img.src=fb.shift();}
+  else{img.parentNode.classList.add('noimg');}
+}
+</script>
+<style>
+:root{
+  --black:#0d0d0d;
+  --coal:#1a1a1a;
+  --orange:#cc5500;
+  --orange-soft:#e8803a;
+  --paper:#f3ece4;
+  --muted:#b8aca0;
+  --font:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--font);background:var(--black);color:var(--paper);line-height:1.6;font-size:1.05rem}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.25rem}
+:focus-visible{outline:3px solid var(--orange-soft);outline-offset:3px}
+
+/* scroll progress bar */
+#bar{position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--orange),var(--orange-soft));transform:scaleX(0);transform-origin:left;z-index:50}
+
+/* nav */
+header{position:sticky;top:0;z-index:20;background:rgba(13,13,13,.94);border-bottom:1px solid #2a2a2a;backdrop-filter:blur(6px)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-weight:800;text-decoration:none;font-size:1.15rem}
+.brand span{color:var(--orange-soft)}
+nav ul{display:flex;gap:1.75rem;list-style:none}
+nav a{text-decoration:none;color:var(--muted);padding:.4rem 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+nav a:hover,nav a.on{color:var(--paper);border-color:var(--orange)}
+#toggle{display:none;background:none;border:1px solid #444;color:var(--paper);font:inherit;padding:.35rem .8rem;border-radius:6px;cursor:pointer}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:var(--black);padding:4.5rem 0;background:linear-gradient(135deg,#b84a00 0%,#cc5500 45%,#d85f08 100%)}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.hero::before{width:420px;height:420px;top:-150px;right:-110px;background:rgba(255,255,255,.10);animation:drift 12s ease-in-out infinite alternate}
+.hero::after{width:300px;height:300px;bottom:-120px;left:-80px;background:rgba(0,0,0,.14);animation:drift 15s ease-in-out infinite alternate-reverse}
+.hero .wrap{position:relative;z-index:1}
+.hero-grid{display:grid;gap:2.5rem;grid-template-columns:1.6fr 1fr;align-items:center}
+.hero-grid>*{animation:up .8s both}
+.hero-grid>*:nth-child(2){animation-delay:.2s}
+.pill{display:inline-flex;align-items:center;gap:.55rem;background:var(--black);color:var(--paper);font-weight:600;font-size:.9rem;padding:.3rem 1rem;border-radius:999px;margin-bottom:1.25rem}
+.dot{width:9px;height:9px;border-radius:50%;background:#2ecc71;box-shadow:0 0 0 0 rgba(46,204,113,.7);animation:pulse 1.8s infinite}
+.hero h1{font-weight:800;font-size:clamp(2.6rem,9vw,6.5rem);line-height:.95;letter-spacing:-.04em}
+.hero h1 b{display:block;color:var(--black)}
+.hero h1 i{display:block;font-style:normal;color:var(--paper)}
+.hero .typed{margin:1.25rem 0 .5rem;font-size:clamp(1.2rem,3.2vw,1.75rem);font-weight:800;line-height:1.3;min-height:2.4rem}
+.hero .typed #type{color:var(--paper)}
+.caret{display:inline-block;width:3px;height:1em;background:var(--black);margin-left:3px;vertical-align:-.12em;animation:blink 1s steps(1) infinite}
+.hero .sub{max-width:34rem;margin:0 0 2rem;font-size:1.15rem;font-weight:600}
+
+.photo-wrap{position:relative;justify-self:center;width:min(320px,100%)}
+.photo-wrap::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:3px dashed rgba(0,0,0,.55);animation:spin 30s linear infinite}
+.photo,.initials{width:100%;aspect-ratio:1/1;border-radius:50%;border:6px solid var(--black);box-shadow:0 22px 44px rgba(0,0,0,.4)}
+.photo{display:block;object-fit:cover;background:var(--coal)}
+.initials{display:none;place-items:center;background:var(--black);color:var(--orange-soft);font-weight:800;font-size:clamp(3.5rem,14vw,5.5rem);letter-spacing:-.04em}
+.photo-wrap.noimg .photo{display:none}
+.photo-wrap.noimg .initials{display:grid}
+.chip{position:absolute;background:var(--black);color:var(--paper);font-weight:600;font-size:.85rem;padding:.35rem .85rem;border-radius:999px;box-shadow:0 8px 18px rgba(0,0,0,.35);animation:float 4s ease-in-out infinite}
+.c1{top:6%;left:-9%}
+.c2{bottom:12%;left:-13%;animation-delay:1.2s}
+.c3{top:22%;right:-10%;animation-delay:2.3s}
+
+.btn{display:inline-block;text-decoration:none;font:inherit;font-weight:600;padding:.8rem 1.5rem;border-radius:999px;border:2px solid var(--black);cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s,color .15s}
+.btn:hover{transform:translateY(-3px)}
+.btn.solid{background:var(--black);color:var(--paper)}
+.btn.solid:hover{box-shadow:0 10px 22px rgba(0,0,0,.4)}
+.btn.line{background:transparent;color:var(--black);margin-left:.5rem}
+.btn.line:hover{background:var(--black);color:var(--paper)}
+
+/* skills ticker */
+.band{background:var(--black);border-bottom:1px solid #2a2a2a;overflow:hidden;padding:1rem 0;color:var(--orange-soft);font-weight:800;font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase}
+.track{display:flex;width:max-content;animation:scroll 32s linear infinite}
+.track span{white-space:nowrap;padding-right:2.5rem}
+.track span::after{content:"✦";padding-left:2.5rem;color:var(--paper)}
+.band:hover .track{animation-play-state:paused}
+
+/* sections */
+section{padding:4.5rem 0}
+h2{font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:1.5rem}
+h2::after{content:"";display:block;width:64px;height:5px;background:linear-gradient(90deg,var(--orange),var(--orange-soft));border-radius:3px;margin-top:.75rem}
+.about{display:grid;gap:2rem;grid-template-columns:1.4fr 1fr;align-items:start}
+.about p+p{margin-top:1rem}
+.facts{background:var(--coal);border-left:5px solid var(--orange);padding:1.5rem;list-style:none;border-radius:0 12px 12px 0}
+.facts li+li{margin-top:.9rem}
+.facts strong{display:block;color:var(--orange-soft)}
+
+.skills,.projects{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.skill{background:var(--black);padding:1.6rem;border-top:5px solid var(--orange);border-radius:0 0 12px 12px;transition:transform .25s,box-shadow .25s}
+.skill:hover{transform:translateY(-6px);box-shadow:0 16px 32px rgba(204,85,0,.25)}
+.skill h3{margin-bottom:.5rem}
+.skill p{color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;list-style:none}
+.tags li{border:1px solid #444;border-radius:999px;padding:.15rem .7rem;font-size:.9rem;transition:background .2s,color .2s,border-color .2s}
+.tags li:hover{background:var(--orange);border-color:var(--orange);color:var(--black)}
+
+.alt{background:var(--coal)}
+.card{background:var(--coal);border:1px solid #333;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s,box-shadow .25s}
+.card:hover{transform:translateY(-6px);border-color:var(--orange);box-shadow:0 18px 36px rgba(204,85,0,.28)}
+.thumb{position:relative;height:150px;display:grid;place-items:center;color:var(--black);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;background:linear-gradient(135deg,var(--orange),var(--orange-soft))}
+.thumb::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,.18) 1.5px,transparent 1.6px);background-size:16px 16px}
+.thumb span{position:relative}
+.card div.txt{padding:1.4rem;display:flex;flex-direction:column;flex:1}
+.card p{color:var(--muted);margin:.4rem 0 1.2rem;flex:1}
+.card a{font-weight:600;color:var(--orange-soft);text-decoration:none}
+.card a::after{content:" →";display:inline-block;transition:transform .2s}
+.card a:hover{color:var(--paper)}
+.card a:hover::after{transform:translateX(5px)}
+
+/* resume */
+.cv{background:var(--black);border-left:5px solid var(--orange);padding:2rem;border-radius:0 14px 14px 0}
+.cv-head{margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid #333}
+.cv-head h3{font-size:clamp(1.4rem,4vw,2rem);letter-spacing:-.02em}
+.cv .role{color:var(--orange-soft);font-weight:600;font-size:1.15rem}
+.cv .meta{color:var(--muted);font-size:.95rem}
+.cv h4{margin:1.75rem 0 .6rem;color:var(--orange-soft);text-transform:uppercase;letter-spacing:.08em;font-size:.95rem}
+.cv ul{padding-left:1.2rem}
+.cv li+li{margin-top:.35rem}
+.cv .item+.item{margin-top:1rem}
+.cv .item h5{font-size:1.05rem}
+
+/* contact */
+.contact{display:grid;gap:2.5rem;grid-template-columns:1fr 1fr}
+form{display:grid;gap:1rem}
+label{display:grid;gap:.35rem;font-weight:600}
+input,textarea{font:inherit;background:var(--coal);color:var(--paper);border:1px solid #444;border-radius:8px;padding:.7rem .8rem;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{border-color:var(--orange-soft);box-shadow:0 0 0 4px rgba(232,128,58,.2);outline:none}
+form .btn{background:var(--orange);border-color:var(--orange);color:var(--black);justify-self:start}
+form .btn:hover{box-shadow:0 10px 22px rgba(204,85,0,.4)}
+#msg{font-weight:600;min-height:1.5em}
+#msg.ok{color:#2ecc71}
+#msg.err{color:#ff6b6b}
+form .btn:disabled{opacity:.6;cursor:wait}
+.links{list-style:none}
+.links li+li{margin-top:.8rem}
+.links a{color:var(--orange-soft)}
+.links a:hover{color:var(--paper)}
+footer{border-top:1px solid #2a2a2a;padding:1.75rem 0;color:var(--muted);text-align:center;font-size:.95rem}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* animations */
+@keyframes up{from{opacity:0;transform:translateY(26px)}}
+@keyframes drift{to{transform:translate(-30px,30px) scale(1.08)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(46,204,113,0)}100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+@media(max-width:760px){
+  #toggle{display:block}
+  nav ul{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;background:var(--black);border-bottom:1px solid #2a2a2a;padding:.5rem 1.25rem 1rem}
+  nav ul.open{display:flex}
+  nav li a{display:block;padding:.7rem 0}
+  .hero-grid,.about,.contact{grid-template-columns:1fr}
+  .photo-wrap{width:min(240px,100%);grid-row:1}
+  .btn.line{margin:.6rem 0 0}
+  .cv{padding:1.25rem}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .band{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">Kalu <span>Adannaya</span></a>
+    <button id="toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav aria-label="Main">
+      <ul id="menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#resume">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="pill"><span class="dot"></span>Open to front-end roles</p>
+        <h1><b>Kalu</b><i>Adannaya</i></h1>
+        <p class="typed">Front-end developer building <span id="type">responsive web pages</span><i class="caret"></i></p>
+        <p class="sub">I turn ideas into clean, responsive pages with HTML, CSS and Bootstrap.</p>
+        <a class="btn solid" href="#projects">See my work</a>
+        <a class="btn line" href="#contact">Get in touch</a>
+      </div>
+      <div class="photo-wrap">
+        <img class="photo" src="images/kalu.jpg" alt="Portrait of Kalu Adannaya" referrerpolicy="no-referrer" onerror="photoFail(this)">
+        <div class="initials" aria-hidden="true">KA</div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="band" aria-label="Skills">
+    <div class="track">
+      <span>HTML5</span><span>CSS3</span><span>Flexbox</span><span>Grid</span><span>Bootstrap 5</span><span>Responsive design</span><span>Git</span><span>GitHub</span>
+      <span aria-hidden="true">HTML5</span><span aria-hidden="true">CSS3</span><span aria-hidden="true">Flexbox</span><span aria-hidden="true">Grid</span><span aria-hidden="true">Bootstrap 5</span><span aria-hidden="true">Responsive design</span><span aria-hidden="true">Git</span><span aria-hidden="true">GitHub</span>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2>About me</h2>
+        <p>I’m Kalu Adannaya, a front-end developer in training. I build web pages with HTML and CSS, and I use Bootstrap to make them responsive on phones and laptops.</p>
+        <p>I use Git and GitHub to save and share my work, and I’m always building new pages to get better.</p>
+      </div>
+      <ul class="facts">
+        <li><strong>Focus</strong>Responsive web pages</li>
+        <li><strong>Tools</strong>HTML, CSS, Bootstrap, Git, GitHub, VS Code</li>
+        <li><strong>Looking for</strong>Front-end internship and junior roles</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills" class="alt">
+    <div class="wrap">
+      <h2>Skills</h2>
+      <div class="skills">
+        <article class="skill">
+          <h3>Structure</h3>
+          <p>Clean, meaningful HTML for pages and forms.</p>
+          <ul class="tags"><li>HTML5</li><li>Forms</li><li>Semantic tags</li></ul>
+        </article>
+        <article class="skill">
+          <h3>Styling</h3>
+          <p>Layouts that look right on a phone and a laptop.</p>
+          <ul class="tags"><li>CSS</li><li>Flexbox</li><li>Grid</li><li>Bootstrap</li><li>Responsive design</li></ul>
+        </article>
+        <article class="skill">
+          <h3>Tools</h3>
+          <p>Saving, tracking and sharing my code online.</p>
+          <ul class="tags"><li>Git</li><li>GitHub</li><li>VS Code</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <div class="projects">
+        <article class="card">
+          <div class="thumb"><span>Landing page</span></div>
+          <div class="txt">
+            <h3>Bootstrap landing page</h3>
+            <p>A responsive page with a hero, service cards and a footer, published on GitHub Pages.</p>
+            <a href="https://kalu-adannaya.github.io/BOOTSTRAP-LANDING-PAGE/" target="_blank" rel="noopener">View the live page</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb"><span>Video</span></div>
+          <div class="txt">
+            <h3>Project video</h3>
+            <p>A video walkthrough of my front-end work.</p>
+            <a href="https://drive.google.com/file/d/1x_UA5nh58t_a1DTaUy8cQo9a3Tjqwbwm/view?usp=drivesdk" target="_blank" rel="noopener">Watch the video</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb"><span>LinkedIn</span></div>
+          <div class="txt">
+            <h3>Project post</h3>
+            <p>A post about my front-end project on LinkedIn.</p>
+            <a href="https://lnkd.in/p/dcEUXwWg" target="_blank" rel="noopener">View the post</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="resume" class="alt">
+    <div class="wrap">
+      <h2>Resume</h2>
+      <article class="cv">
+
+        <div class="cv-head">
+          <h3>Obasi-Kalu Adannaya Rose</h3>
+          <p class="role">Front-End Developer</p>
+          <p class="meta">Lagos State, Nigeria | kaluadannayarose@gmail.com</p>
+        </div>
+
+        <h4>Professional Summary</h4>
+        <p>Front-end developer who builds responsive, well-structured web pages with HTML, CSS and Bootstrap. Built a school website independently and led a team project recreating the Medium landing page with CSS Grid, Flexbox and responsive design. Detail-oriented and quick to learn, with training from Be Techified (October 2026 cohort). Seeking a front-end role to apply and grow practical skills in the tech industry.</p>
+
+        <h4>Technical Skills</h4>
+        <ul>
+          <li>HTML5: semantic structure, page layout and forms</li>
+          <li>CSS3: internal and external styling, CSS Grid and Flexbox layouts</li>
+          <li>Bootstrap 5: grid system, cards, buttons and responsive components</li>
+          <li>Responsive web design, including mobile-first and laptop-first approaches</li>
+          <li>Git and GitHub: version control, commits, pushing code and publishing with GitHub Pages</li>
+          <li>Recreating real website designs from a reference page</li>
+          <li>Writing and testing code in VS Code</li>
+        </ul>
+
+        <h4>Soft Skills</h4>
+        <ul>
+          <li>Team collaboration and project leadership</li>
+          <li>Attention to detail</li>
+          <li>Creative problem-solving</li>
+          <li>Eagerness to learn and take feedback</li>
+        </ul>
+
+        <h4>Projects</h4>
+        <div class="item">
+          <h5>Responsive Bootstrap Landing Page</h5>
+          <p>Built a responsive landing page with a hero section, service cards and a footer using the Bootstrap 5 grid, cards and buttons. Committed the project with Git, pushed it to GitHub and published it with GitHub Pages.</p>
+        </div>
+        <div class="item">
+          <h5>School Website</h5>
+          <p>Built a school website independently with HTML and CSS, handling both the page structure and the styling.</p>
+        </div>
+        <div class="item">
+          <h5>Medium Landing Page Recreation (Team Project)</h5>
+          <p>Led a team project recreating the Medium landing page with CSS Grid, Flexbox and responsive design, delivering both mobile-first and laptop-first layouts.</p>
+        </div>
+        <div class="item">
+          <h5>Event Registration Form</h5>
+          <p>Created an event registration form (event_registration.html) using HTML form elements and internal CSS.</p>
+        </div>
+
+        <h4>Experience</h4>
+        <div class="item">
+          <h5>Front-End Development Trainee, Be Techified | October 2026 Cohort</h5>
+          <ul>
+            <li>Trained in front-end development through hands-on, project-based exercises, practising HTML and CSS in VS Code.</li>
+            <li>Applied CSS Grid, Flexbox and responsive design (mobile-first and laptop-first) to build web page layouts.</li>
+            <li>Led a team project recreating the Medium landing page and worked with teammates to deliver the finished page.</li>
+            <li>Built HTML forms styled with internal CSS, including an event registration form.</li>
+            <li>Built a responsive landing page with Bootstrap and used Git and GitHub to commit, push and publish the project.</li>
+          </ul>
+        </div>
+
+        <h4>Tools</h4>
+        <p>VS Code | HTML | CSS | Bootstrap | Git | GitHub</p>
+
+        <h4>Education</h4>
+        <p>Bachelor of Science (B.Sc.), Geography, University of Nigeria, Nsukka (UNN) | 2022–2025</p>
+
+      </article>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <div>
+        <h2>Contact me</h2>
+        <p>Have a project or a role in mind? Send a message and I’ll reply soon.</p>
+        <ul class="links" style="margin-top:1.5rem">
+          <li><a href="mailto:kaluadannayarose@gmail.com">kaluadannayarose@gmail.com</a></li>
+          <li><a href="https://github.com/kalu-adannaya">github.com/kalu-adannaya</a></li>
+          <li><a href="https://www.linkedin.com/in/adannaya-rose-kalu-930574371">LinkedIn</a></li>
+        </ul>
+      </div>
+            <form id="form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="c8b3ff6a-0ce2-4809-9d95-3f1faa2cb154">
+        <input type="hidden" name="subject" value="New message from my portfolio">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+        <label>Your name<input type="text" name="name" required></label>
+        <label>Your email<input type="email" name="email" required></label>
+        <label>Your message<textarea name="message" rows="4" required></textarea></label>
+        <button class="btn" type="submit">Send message</button>
+        <p id="msg" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="yr">2026</span> Kalu Adannaya. All rights reserved.</footer>
+
+<script>
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// mobile menu
+var t=document.getElementById('toggle'),menu=document.getElementById('menu');
+t.addEventListener('click',function(){
+  var open=menu.classList.toggle('open');
+  t.setAttribute('aria-expanded',open);
+});
+menu.addEventListener('click',function(e){
+  if(e.target.tagName==='A'){menu.classList.remove('open');t.setAttribute('aria-expanded','false');}
+});
+
+// highlight the current section in the menu
+var links=[].slice.call(menu.querySelectorAll('a'));
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id);});
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px'});
+['about','skills','projects','resume','contact'].forEach(function(id){io.observe(document.getElementById(id));});
+
+// scroll progress bar
+var bar=document.getElementById('bar');
+function prog(){
+  var h=document.documentElement;
+  var s=h.scrollTop/(h.scrollHeight-h.clientHeight);
+  bar.style.transform='scaleX('+(s||0)+')';
+}
+window.addEventListener('scroll',prog,{passive:true});
+prog();
+
+// typing effect in the hero
+var words=['responsive web pages','clean, modern layouts','mobile-friendly designs','Bootstrap-powered sites'];
+var el=document.getElementById('type'),w=0,c=0,del=false;
+function tick(){
+  var word=words[w];
+  c+=del?-1:1;
+  el.textContent=word.slice(0,c);
+  var d=del?45:85;
+  if(!del&&c===word.length){del=true;d=1600;}
+  else if(del&&c===0){del=false;w=(w+1)%words.length;d=350;}
+  setTimeout(tick,d);
+}
+if(!reduce){el.textContent='';tick();}
+
+// reveal sections as you scroll
+if(!reduce&&'IntersectionObserver' in window){
+  var rv=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var x=e.target;
+        x.classList.add('in');
+        rv.unobserve(x);
+        setTimeout(function(){x.classList.remove('reveal','in');x.style.transitionDelay='';},1000);
+      }
+    });
+  },{threshold:.12});
+  [].slice.call(document.querySelectorAll('.wrap>h2,.about>*,.skill,.card,.cv,.contact>*')).forEach(function(x,i){
+    x.classList.add('reveal');
+    x.style.transitionDelay=((i%3)*0.1)+'s';
+    rv.observe(x);
+  });
+}
+// contact form sends the message to my email through Web3Forms
+var form=document.getElementById('form'),msg=document.getElementById('msg');
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  var btn=form.querySelector('button');
+  btn.disabled=true;btn.textContent='Sending...';msg.textContent='';msg.className='';
+  fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(form)})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.success){form.reset();msg.textContent='Thank you! Your message has been sent.';msg.className='ok';}
+      else{msg.textContent='Something went wrong. Please email me directly.';msg.className='err';}
+    })
+    .catch(function(){msg.textContent='Network error. Please try again.';msg.className='err';})
+    .then(function(){btn.disabled=false;btn.textContent='Send message';});
+});
+</script>
+</body>
+</html>
